@@ -6,7 +6,7 @@ while true; do
 
 	if [ -z "$LAST_BATTERY_LEVEL" ] && [ -n "$BATTERY_LEVEL" ]; then
 		# Headset connected
-		headsetcontrol -cl0
+		headsetcontrol -l 0
 	fi
 	sleep 2
 done

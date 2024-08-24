@@ -10,7 +10,6 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local helpers = require("helpers")
-local icons = require("icons")
 
 --- ░█▀▀░█▀█░█▀█░▀█▀░█▀▀
 --- ░█▀▀░█░█░█░█░░█░░▀▀█
@@ -18,7 +17,7 @@ local icons = require("icons")
 
 --- Ui Fonts
 theme.font_name = "Inter "
-theme.font = theme.font_name .. "Medium 10"
+theme.font = theme.font_name .. "Bold 10"
 
 --- Icon Fonts
 theme.icon_font = "Material Icons "
@@ -119,32 +118,6 @@ theme.titlebar_enabled = true
 theme.titlebar_bg = theme.black
 theme.titlebar_fg = theme.white
 
-local icon_dir = gfs.get_configuration_dir() .. "/icons/titlebar/"
-
--- Close Button
-theme.titlebar_close_button_normal = icon_dir .. "normal.svg"
-theme.titlebar_close_button_focus = icon_dir .. "close_focus.svg"
-theme.titlebar_close_button_normal_hover = icon_dir .. "close_focus_hover.svg"
-theme.titlebar_close_button_focus_hover = icon_dir .. "close_focus_hover.svg"
-
--- Minimize Button
-theme.titlebar_minimize_button_normal = icon_dir .. "normal.svg"
-theme.titlebar_minimize_button_focus = icon_dir .. "minimize_focus.svg"
-theme.titlebar_minimize_button_normal_hover = icon_dir .. "minimize_focus_hover.svg"
-theme.titlebar_minimize_button_focus_hover = icon_dir .. "minimize_focus_hover.svg"
-
--- Maximized Button (While Window is Maximized)
-theme.titlebar_maximized_button_normal_active = icon_dir .. "normal.svg"
-theme.titlebar_maximized_button_focus_active = icon_dir .. "maximized_focus.svg"
-theme.titlebar_maximized_button_normal_active_hover = icon_dir .. "maximized_focus_hover.svg"
-theme.titlebar_maximized_button_focus_active_hover = icon_dir .. "maximized_focus_hover.svg"
-
--- Maximized Button (While Window is not Maximized)
-theme.titlebar_maximized_button_normal_inactive = icon_dir .. "normal.svg"
-theme.titlebar_maximized_button_focus_inactive = icon_dir .. "maximized_focus.svg"
-theme.titlebar_maximized_button_normal_inactive_hover = icon_dir .. "maximized_focus_hover.svg"
-theme.titlebar_maximized_button_focus_inactive_hover = icon_dir .. "maximized_focus_hover.svg"
-
 --- Wibar
 theme.wibar_bg = "#101213"
 theme.wibar_height = dpi(40)
@@ -161,17 +134,6 @@ theme.music_accent = theme.lighter_black
 --- Image Assets
 theme.pfp = gears.surface.load_uncached(gfs.get_configuration_dir() .. "theme/assets/pfp.png")
 theme.music = gears.surface.load_uncached(gfs.get_configuration_dir() .. "theme/assets/music.png")
-
---- Layout
---- You can use your own layout icons like this:
-theme.layout_floating = icons.floating
-theme.layout_max = icons.max
-theme.layout_tile = icons.tile
-theme.layout_dwindle = icons.dwindle
-theme.layout_centered = icons.centered
-theme.layout_mstab = icons.mstab
-theme.layout_equalarea = icons.equalarea
-theme.layout_machi = icons.machi
 
 --- Icon Theme
 --- Define the icon theme for application icons. If not set then the icons

@@ -21,7 +21,7 @@ alias dotfiles='git --git-dir=/home/jasper/.dotfiles --work-tree=/'
 alias packgs='comm -23 <(pacman -Qqett | sort) <(pacman -Qqg base-devel | sort | uniq)'
 alias paclean='sudo pacman -Qdtq | sudo pacman -Rns -'
 
-dot() {
+dots() {
   if [[ "$#" -eq 0 ]]; then
     (cd /
     for i in $(dotfiles ls-files); do
