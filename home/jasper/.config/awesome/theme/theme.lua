@@ -40,6 +40,8 @@ theme.grey_fg = "#3e4041"
 theme.grey_fg2 = "#484a4b"
 theme.light_grey = "#505253"
 
+theme.blue = "#58A6FF"
+
 theme.transparent = "#00000000"
 
 --- Black
@@ -177,10 +179,10 @@ theme.layout_machi = icons.machi
 theme.icon_theme = "WhiteSur-dark"
 
 --- Borders
-theme.border_width = 0
-theme.oof_border_width = 0
+theme.border_width = 2
+theme.oof_border_width = 2
 theme.border_color_marked = theme.titlebar_bg
-theme.border_color_active = theme.titlebar_bg
+theme.border_color_active = theme.blue
 theme.border_color_normal = theme.titlebar_bg
 theme.border_color_new = theme.titlebar_bg
 theme.border_color_urgent = theme.titlebar_bg
