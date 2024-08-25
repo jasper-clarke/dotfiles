@@ -2,6 +2,8 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 
+export PATH=$PATH:$HOME/.local/bin
+
 fpath+="$HOME/.myzsh/zsh-completions/src"
 
 autoload -Uz compinit
@@ -20,6 +22,7 @@ alias -- 'rm'='trash-put'
 alias dotfiles='git --git-dir=/home/jasper/.dotfiles --work-tree=/'
 alias packgs='comm -23 <(pacman -Qqett | sort) <(pacman -Qqg base-devel | sort | uniq)'
 alias paclean='sudo pacman -Qdtq | sudo pacman -Rns -'
+alias oil='nvim -c Oil'
 
 dots() {
   if [[ "$#" -eq 0 ]]; then

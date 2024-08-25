@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Trick version command
+if [[ $1 == "version" ]]; then
+	echo "{\"npm\":\"10.8.2\"}"
+	exit
+fi
+
+# Trick init command
+if [[ $1 == "init" ]]; then
+	for i in "$@"; do
+		case $i in
+		--scope=*)
+			SCOPE="${i#*=}"
+			shift # past argument=value
+			;;
+		*) ;;
+		esac
+	done
+
+	pnpm init >/dev/null
+
+	if [ -n "$SCOPE" ]; then
+		sed -i "s/\"name\": \"\(.*\)\"/\"name\": \"@$SCOPE\/\1\"/" package.json
+	fi
+
+	cat package.json
+
+	exit
+fi
+
+# Trick install command
+if [[ $1 == "install" ]]; then
+	if [ -n "$2" ]; then
+		pnpm add $2
+	else
+		pnpm install
+	fi
+
+	exit
+fi
+
+# Trick publish command
+if [[ $1 == "publish" ]]; then
+	corepack npm $@
+	exit
+fi
+
+# Trick info command
+if [[ $1 == "info" ]]; then
+	corepack npm $@
+	exit
+fi
+
+pnpm $@
