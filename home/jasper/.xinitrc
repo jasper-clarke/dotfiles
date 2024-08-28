@@ -38,5 +38,6 @@ fi
 
 xssproxy &
 xset -dpms
+xset s off
 
 exec awesome

@@ -1,0 +1,9 @@
+[Unit]
+Description=Turn down display brightness at 1730 each day
+
+[Timer]
+OnCalendar=*-*-* 17:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

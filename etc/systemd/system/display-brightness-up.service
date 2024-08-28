@@ -1,0 +1,7 @@
+[Unit]
+Description=Set display brightnesses to default
+
+[Service]
+ExecStart=/usr/bin/ddcutil --model VG258 setvcp 10 50; /usr/bin/ddcutil --model VX2758-SERIES setvcp 10 80; /usr/bin/ddcutil --model 'DELL S2421HS' setvcp 10 70 
+Type=oneshot
+User=root
