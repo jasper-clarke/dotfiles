@@ -1,0 +1,20 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "space .": ["file_finder::Toggle", { "seperate_history": true }],
+      "space d": "pane::CloseActiveItem",
+      "shift-l": "pane::ActivateNextItem",
+      "shift-h": "pane::ActivatePrevItem",
+      "ctrl-f": ["editor::ToggleComments", { "advance_downwards": false }],
+      "space /": "buffer_search::Deploy"
+    }
+  }
+]
