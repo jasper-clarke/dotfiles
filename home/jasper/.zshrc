@@ -3,6 +3,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 export PATH=$PATH:$HOME/.local/bin
+export EDITOR=nvim
 
 fpath+="$HOME/.myzsh/zsh-completions/src"
 
