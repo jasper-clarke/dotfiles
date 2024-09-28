@@ -7,14 +7,15 @@
 // from the command palette.
 [
   {
-    "context": "Editor",
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
     "bindings": {
       "space .": ["file_finder::Toggle", { "seperate_history": true }],
       "space d": "pane::CloseActiveItem",
       "shift-l": "pane::ActivateNextItem",
       "shift-h": "pane::ActivatePrevItem",
       "ctrl-f": ["editor::ToggleComments", { "advance_downwards": false }],
-      "space /": "buffer_search::Deploy"
+      "space /": "buffer_search::Deploy",
+      "space g g": ["task::Spawn", { "task_name": "Lazygit" }]
     }
   }
 ]

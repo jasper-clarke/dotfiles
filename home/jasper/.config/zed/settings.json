@@ -12,6 +12,7 @@
   "telemetry": {
     "metrics": true
   },
+  // "buffer_font_family": "Iosevka Nerd Font",
   "ui_font_size": 18,
   "buffer_font_size": 20,
   "theme": {
