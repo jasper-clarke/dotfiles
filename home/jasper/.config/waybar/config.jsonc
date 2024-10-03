@@ -1,0 +1,82 @@
+{
+  "layer": "top",
+  "position": "top",
+  "output": "DP-1",
+  "mod": "dock",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 32,
+  "fixed-center": true,
+  "reload_style_on_change": true,
+
+  "modules-left": ["custom/hyprland-workspaces"],
+
+  "modules-center": ["mpd"],
+
+  "modules-right": ["pulseaudio", "tray", "clock"],
+
+  "custom/keeb-batt": {
+    "format": "{}",
+    "exec": "bluetoothctl info | grep 'Battery Percentage:' | sed -e 's/^[ \t]*//' | awk '{print $4}'",
+    "interval": 600,
+  },
+
+  "custom/hyprland-workspaces": {
+    "all-outputs": true,
+    "active-only": false,
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+    },
+    "persistent-workspaces": {
+      "*": 1,
+    },
+  },
+
+  "mpd": {
+    "format": "{title}",
+    "format-disconnected": "Disconnected ",
+    "format-stopped": " ",
+    "interval": 10,
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)",
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "tooltip": false,
+    "spacing": 10,
+  },
+
+  "clock": {
+    "format": "{:%I:%M %p}",
+    "format-alt": "{:%d/%m/%y}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b>{}</b></span>",
+      },
+    },
+  },
+
+  "pulseaudio": {
+    "format": "  {volume}%",
+    "tooltip": false,
+    "format-muted": "  N/A",
+    "scroll-step": 5,
+    "on-click": "audio-select sink",
+  },
+}
