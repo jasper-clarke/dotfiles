@@ -1,7 +1,8 @@
 * {
   font-family: Inter;
-  font-size: 13px;
-  border-radius: 17px;
+  font-size: 20px;
+  border-radius: 20px;
+  font-weight: 600;
 }
 
 #clock,
@@ -16,7 +17,7 @@
 #pulseaudio,
 #window,
 #tray {
-  padding: 5 15px;
+  padding: 5px 15px;
   border-radius: 12px;
   background: #1e1e2e;
   color: #b4befe;
@@ -112,11 +113,6 @@ window * {
   100% {
     background-position: 71% 0%;
   }
-}
-
-#custom-power-menu {
-  margin-right: 10px;
-  padding: 3px 15px 0 12px;
 }
 
 #custom-spotify {

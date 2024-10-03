@@ -1,28 +1,28 @@
 {
   "layer": "top",
   "position": "top",
-  "output": "DP-1",
+  "output": "DP-2",
   "mod": "dock",
   "exclusive": true,
   "passthrough": false,
   "gtk-layer-shell": true,
-  "height": 32,
+  "height": 60,
   "fixed-center": true,
   "reload_style_on_change": true,
 
-  "modules-left": ["custom/hyprland-workspaces"],
+  "modules-left": ["hyprland/workspaces"],
 
   "modules-center": ["mpd"],
 
   "modules-right": ["pulseaudio", "tray", "clock"],
 
-  "custom/keeb-batt": {
-    "format": "{}",
-    "exec": "bluetoothctl info | grep 'Battery Percentage:' | sed -e 's/^[ \t]*//' | awk '{print $4}'",
-    "interval": 600,
-  },
+  // "custom/keeb-batt": {
+  //   "format": "{}",
+  //   "exec": "bluetoothctl info | grep 'Battery Percentage:' | sed -e 's/^[ \t]*//' | awk '{print $4}'",
+  //   "interval": 600,
+  // },
 
-  "custom/hyprland-workspaces": {
+  "hyprland/workspaces": {
     "all-outputs": true,
     "active-only": false,
     "on-click": "activate",
@@ -73,10 +73,10 @@
   },
 
   "pulseaudio": {
-    "format": "  {volume}%",
+    "format": "   {volume}%",
     "tooltip": false,
     "format-muted": "  N/A",
     "scroll-step": 5,
-    "on-click": "audio-select sink",
+    // "on-click": "audio-select sink",
   },
 }
