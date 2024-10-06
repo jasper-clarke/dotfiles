@@ -12,7 +12,7 @@
 
   "modules-left": ["hyprland/workspaces"],
 
-  "modules-center": ["mpd"],
+  "modules-center": ["mpris"],
 
   "modules-right": ["pulseaudio", "tray", "clock"],
 
@@ -40,14 +40,23 @@
     },
   },
 
-  "mpd": {
+  "mpris": {
     "format": "{title}",
     "format-disconnected": "Disconnected ",
     "format-stopped": " ",
-    "interval": 10,
-    "tooltip-format": "MPD (connected)",
-    "tooltip-format-disconnected": "MPD (disconnected)",
+    "interval": 6,
+    "tooltip-format": "MPRIS (connected)",
+    "tooltip-format-disconnected": "MPRIS (disconnected)",
   },
+
+  // "mpd": {
+  //   "format": "{title}",
+  //   "format-disconnected": "Disconnected ",
+  //   "format-stopped": " ",
+  //   "interval": 10,
+  //   "tooltip-format": "MPD (connected)",
+  //   "tooltip-format-disconnected": "MPD (disconnected)",
+  // },
 
   "tray": {
     "icon-size": 14,

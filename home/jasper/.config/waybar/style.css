@@ -25,7 +25,7 @@
   transition: all 0.3s ease;
 }
 
-#mpd {
+#mpris {
   padding: 5 55px;
   border-radius: 12px;
   background-image: url("cover.jpg"), url("cover.png");
