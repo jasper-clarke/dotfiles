@@ -2,8 +2,10 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 
+export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.config/emacs/bin
+export PATH=$PATH:$GOPATH/bin
 # export EDITOR=nvim
 
 fpath+="$HOME/.myzsh/zsh-completions/src"
@@ -25,6 +27,7 @@ alias dotfiles='git --git-dir=/home/jasper/.dotfiles --work-tree=/'
 alias packgs='comm -23 <(pacman -Qqett | sort) <(pacman -Qqg base-devel | sort | uniq)'
 alias paclean='sudo pacman -Qdtq | sudo pacman -Rns -'
 alias oil='nvim -c Oil'
+alias phpstorm='~/.programs/PhpStorm-242.23339.16/bin/phpstorm.sh &'
 
 dots() {
   if [[ "$#" -eq 0 ]]; then
