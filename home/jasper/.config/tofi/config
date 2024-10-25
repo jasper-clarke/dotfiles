@@ -1,0 +1,18 @@
+font = Inter
+font-size = 20
+
+outline-width = 0
+border-width = 0
+padding-left = 2%
+padding-top = 2%
+padding-right = 2%
+padding-bottom = 2%
+
+background-color = #0f1012
+text-color = #f9fbff
+selection-color = #843b39
+corner-radius = 25
+
+width = 550
+
+hide-cursor = true
