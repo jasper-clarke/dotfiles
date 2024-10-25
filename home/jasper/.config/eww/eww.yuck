@@ -6,8 +6,7 @@
 ;; Time vars
 (defpoll HOUR :interval "5s" `date +\"%I\"`)
 (defpoll MIN :interval "5s" `date +\"%M\"`)
-(defpoll MER :interval "5s" `date +\"%p\"`)
-(defpoll DAY :interval "5s" `date +\"%A\"`)
+(defpoll DAY :interval "5s" `date +\"%A, %B %d\"`)
 
 ;; Music vars
 (defpoll SONG :interval "1s" `scripts/playerctl --title`)
@@ -69,7 +68,7 @@ Architect & Engineer")
 (defwindow dashboard.search
   :monitor 2
   :geometry (geometry :x 980 :y 310 :width 600 :height 820)
-  :stacking "fg"
+  :stacking "overlay"
   :focusable false
   (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false)
   )
@@ -80,7 +79,10 @@ Architect & Engineer")
   :geometry (geometry :x 1600 :y 310 :width 270 :height 290)
   :stacking "overlay"
   :focusable false
-  (box :class "generic"))
+  (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false
+    (label :class "clock" :text "${HOUR}:${MIN}" :xalign 0.5)
+    (label :class "date" :text "${DAY}" :xalign 0.5)
+  ))
 
 ;; Weather
 (defwindow dashboard.weather
