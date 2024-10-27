@@ -4,9 +4,9 @@ SAVEHIST=1000
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.config/emacs/bin
 export PATH=$PATH:$GOPATH/bin
-# export EDITOR=nvim
+
+source $HOME/.dailyText.sh
 
 fpath+="$HOME/.myzsh/zsh-completions/src"
 

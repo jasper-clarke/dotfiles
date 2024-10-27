@@ -16,6 +16,7 @@ run_eww() {
 		dashboard.profile \
 		dashboard.music \
 		dashboard.search \
+		dashboard.tray \
 		dashboard.clock \
 		dashboard.weather \
 		dashboard.feed
@@ -28,5 +29,6 @@ if [[ ! -f "$FILE" ]]; then
 	hyprctl keyword bind ,ESCAPE,exec,"eww close-all && rm $FILE && hyprctl keyword unbind ,ESCAPE"
 else
 	${EWW} close-all
+	hyprctl keyword unbind ,ESCAPE
 	rm "$FILE"
 fi

@@ -2,6 +2,8 @@
 (defvar IMAGE "images/profile.jpg")
 (defvar NAME "Jasper Clarke")
 (defpoll UNAME :interval "30m" `whoami`)
+(defpoll DSCRIPT :interval "1h" `source $HOME/.dailyText.sh && echo $DTEXT_SCRIPTURE`)
+(defpoll DCONTENT :interval "1h" `source $HOME/.dailyText.sh && echo $DTEXT_CONTENT`)
 
 ;; Time vars
 (defpoll HOUR :interval "5s" `date +\"%I\"`)
@@ -47,8 +49,8 @@ Architect & Engineer")
   :focusable false
   (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false
     (box :style "background-image: url('${COVER}')" :class "music-img" :halign "center" :hexpand false :vexpand false)
-    (box :class "music-text" :orientation "v" :vexpand false :hexpand false
-      (label :class "song" :text "${SONG}" :xalign 0 :wrap true)
+    (box :class "music-text" :orientation "v" :vexpand false :hexpand false :space-evenly false
+      (label :class "song" :text "${SONG}" :xalign 0 :wrap true :show-truncated false)
       (label :class "artist" :text "${ARTIST}" :xalign 0 )
     )
     (box :class "music-time" :orientation "h" :vexpand false :hexpand false
@@ -67,10 +69,24 @@ Architect & Engineer")
 ;; Search
 (defwindow dashboard.search
   :monitor 2
-  :geometry (geometry :x 980 :y 310 :width 600 :height 820)
+  :geometry (geometry :x 980 :y 310 :width 600 :height 720)
   :stacking "overlay"
   :focusable false
-  (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false)
+  (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false
+    (label :class "feed-title" :text DSCRIPT :xalign 0 :wrap true :show-truncated false)
+    (label :class "feed-content" :text DCONTENT :xalign 0 :wrap true :show-truncated false)
+  )
+  )
+
+(defwindow dashboard.tray
+  :monitor 2
+  :geometry (geometry :x 980 :y 1050 :width 600 :height 80)
+  :stacking "overlay"
+  :focusable false
+  (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false
+    (systray :class "systray" :orientation "h" :spacing 10 :space-evenly false :icon-size 40 :valign "center" :halign "start"
+    )
+  )
   )
 
 ;; Clock
@@ -99,4 +115,5 @@ Architect & Engineer")
   :geometry (geometry :x 1600 :y 620 :width 560 :height 510)
   :stacking "overlay"
   :focusable false
-  (box :class "generic"))
+  (box :class "generic" :orientation "v" :vexpand false :hexpand false :space-evenly false)
+)
