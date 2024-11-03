@@ -1,4 +1,4 @@
-{ pkgs, lib, config, user, ... }:
+{ ... }:
 let
   zsh = true;
 in

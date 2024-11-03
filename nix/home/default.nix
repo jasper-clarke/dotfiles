@@ -1,11 +1,17 @@
-{ config, pkgs, lib, inputs, user, version, system, ... }:
-{
+{ pkgs
+, inputs
+, user
+, version
+, system
+, ...
+}: {
   imports = [
     ./hypr
     ./terminal.nix
     ./browser.nix
+    ./music.nix
   ];
- 
+
   home = {
     username = "${user}";
     homeDirectory = "/home/${user}";
@@ -14,7 +20,7 @@
       inputs.nixvim.packages.${system}.default
       jetbrains-mono
       inter
-      (nerdfonts.override {fonts = [ "Iosevka" ]; })
+      (nerdfonts.override { fonts = [ "Iosevka" ]; })
     ];
     pointerCursor = {
       x11.enable = true;

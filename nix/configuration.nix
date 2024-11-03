@@ -1,82 +1,103 @@
-{ config, lib, pkgs, user, version, hostname, ... }:
+{ config
+, lib
+, pkgs
+, user
+, version
+, hostname
+, ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+    ./nvidia.nix
+  ];
 
-{
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./nvidia.nix
-    ];
-
-    boot = {
-      supportedFilesystems = ["ntfs"];
-      kernelPackages = pkgs.linuxPackages_latest;
-      loader = {
-        efi.canTouchEfiVariables = true;
-        grub = {
-          enable = true;
-          efiSupport = true;
-          device = "nodev";
-        };
+  boot = {
+    supportedFilesystems = [ "ntfs" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
       };
     };
+  };
 
-    nix.settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
+  };
+
+  networking = {
+    hostName = "${hostname}";
+    networkmanager.enable = true;
+  };
+
+  time.timeZone = "Australia/Sydney";
+
+  security.polkit.enable = true;
+  security.rtkit.enable = true;
+
+  hardware.pulseaudio.enable = lib.mkForce false;
+
+  services = {
+    mpd = {
+      enable = true;
+      musicDirectory = "/home/${user}/Music";
+      user = "${user}";
+      extraConfig = ''
+        audio_output {
+          type "pipewire"
+          name "Pipewire Output"
+        }
+      '';
     };
-
-    networking = {
-      hostName = "${hostname}";
-      networkmanager.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      jack.enable = true;
+      pulse.enable = true;
+      wireplumber.enable = true;
     };
+    dbus.enable = true;
+    openssh.enable = true;
+    xserver = {
+      enable = true;
+      xkb.layout = "us";
+    };
+    displayManager = {
+      sddm.enable = true;
+    };
+  };
 
-    time.timeZone = "Australia/Sydney";
-
-    security.polkit.enable = true;
-    security.rtkit.enable = true;
-    
-    hardware.pulseaudio.enable = lib.mkForce false;
-
+  systemd = {
     services = {
-      pipewire = {
-        enable = true;
-        alsa.enable = true;
-        jack.enable = true;
-        pulse.enable = true;
-        wireplumber.enable = true;
-      };
-      dbus.enable = true;
-      openssh.enable = true;
-      xserver = {
-        enable = true;
-        xkb.layout = "us";
-      };
-      displayManager = {
-        sddm.enable = true;
+      mpd.environment = {
+        XDG_RUNTIME_DIR = "/run/user/1000";
       };
     };
+  };
 
-    users.users.${user} = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
-      home = "/home/${user}";
-      shell = pkgs.zsh;
+  users.users.${user} = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "docker" ];
+    home = "/home/${user}";
+    shell = pkgs.zsh;
+  };
+
+  programs = {
+    hyprland.enable = true;
+    zsh.enable = true;
+    nh = {
+      enable = true;
+      flake = "/home/${user}/.nixos";
     };
+  };
 
-    programs = {
-      hyprland.enable = true;
-      zsh.enable = true;
-      nh = {
-        enable = true;
-        flake = "/home/${user}/.nixos";
-      };
-    };
+  environment.systemPackages = with pkgs; [
+    vim
+  ];
 
-    environment.systemPackages = with pkgs; [
-      vim
-    ];
-
-    system.stateVersion = "${version}"; # Did you read the comment?
-
+  system.stateVersion = "${version}"; # Did you read the comment?
 }
-

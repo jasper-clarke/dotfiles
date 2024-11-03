@@ -1,5 +1,8 @@
-{ config, lib, pkgs, inputs, user, system, ... }:
-{
+{ pkgs
+, inputs
+, system
+, ...
+}: {
   services.mako = {
     enable = false;
     anchor = "top-right";
@@ -10,7 +13,11 @@
 
   home.file = {
     ".config/hypr/hyprland.conf".source = ./hyprland.conf;
-  }; 
+    ".config/eww" = {
+      source = ./eww;
+      recursive = true;
+    };
+  };
 
   home.packages = with pkgs; [
     inputs.swww.packages.${system}.swww
@@ -18,5 +25,8 @@
     hyprpicker
     tofi
     swappy
+    eww
+    wl-clipboard
+    clipse
   ];
 }

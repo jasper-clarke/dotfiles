@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+## Files and cmd
+FILE="$HOME/.cache/eww_launch.dashboard"
+EWW=$(which eww)
+
+## Run eww daemon if not running already
+if [[ ! $(pidof eww) ]]; then
+  ${EWW} daemon
+  sleep 1
+fi
+
+run_eww() {
+  ${EWW} open-many \
+    dashboard.bg \
+    dashboard.profile \
+    dashboard.music \
+    dashboard.search \
+    dashboard.tray \
+    dashboard.clock \
+    dashboard.weather \
+    dashboard.feed
+}
+
+## Launch or close widgets accordingly
+if [[ ! -f "$FILE" ]]; then
+  touch "$FILE"
+  run_eww
+  hyprctl keyword bind ,ESCAPE,exec,"eww close-all && rm $FILE && hyprctl keyword unbind ,ESCAPE"
+else
+  ${EWW} close-all
+  hyprctl keyword unbind ,ESCAPE
+  rm "$FILE"
+fi
