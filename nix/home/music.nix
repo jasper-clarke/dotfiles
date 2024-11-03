@@ -15,6 +15,7 @@
     };
   };
   home.packages = with pkgs; [
+    playerctl
     rmpc
     mpc-cli
     mpdris2
