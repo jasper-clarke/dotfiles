@@ -10,7 +10,9 @@
     ./nvidia.nix
   ];
 
+  hardware.i2c.enable = true;
   boot = {
+    kernelModules = [ "i2c-dev" ];
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
@@ -74,6 +76,57 @@
     services = {
       mpd.environment = {
         XDG_RUNTIME_DIR = "/run/user/1000";
+      };
+      NetworkManager-wait-online.enable = lib.mkForce false;
+      "display-brightness-up" = {
+        script = ''
+          ${pkgs.ddcutil}/bin/ddcutil --model VG258 setvcp 10 50
+          ${pkgs.ddcutil}/bin/ddcutil --model VX2758-SERIES setvcp 10 80
+          ${pkgs.ddcutil}/bin/ddcutil --model 'DELL S2421HS' setvcp 10 70
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
+      "display-brightness-down" = {
+        script = ''
+          ${pkgs.ddcutil}/bin/ddcutil --model VG258 setvcp 10 20
+          ${pkgs.ddcutil}/bin/ddcutil --model VX2758-SERIES setvcp 10 50
+          ${pkgs.ddcutil}/bin/ddcutil --model 'DELL S2421HS' setvcp 10 30
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
+    };
+    timers = {
+      "display-brightness-down" = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "*-*-* 17:30:00";
+          Persistent = true;
+        };
+      };
+      "display-brightness-up" = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "1m";
+        };
+      };
+    };
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
       };
     };
   };
