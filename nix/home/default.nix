@@ -17,6 +17,7 @@
     homeDirectory = "/home/${user}";
     stateVersion = "${version}";
     packages = with pkgs; [
+      (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
       inputs.nixvim.packages.${system}.default
       jetbrains-mono
       inter

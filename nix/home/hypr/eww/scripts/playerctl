@@ -4,7 +4,7 @@
 STATUS="$(playerctl status)"
 MPD_STATUS="$(mpc status)"
 MUSIC_DIR="$HOME/Music"
-PLAYER="spotify_player"
+PLAYER="spotify"
 # If MPD is playing music, use that
 if [[ "$MPD_STATUS" == *"[playing]"* || "$MPD_STATUS" == *"[paused]"* ]]; then
   PLAYER="mpd"
@@ -100,7 +100,7 @@ get_cover() {
       ffmpeg -i "${MUSIC_DIR}/$(mpc current -f %file%)" "/tmp/music-$SONG.jpg" -y &>/dev/null
       STATUS=$?
     else
-      ffmpeg -i "$(playerctl -p spotify metadata mpris:artUrl)" "/tmp/music-$SONG.jpg" -y &>/dev/null
+      ffmpeg -i "$(playerctl -p $PLAYER metadata mpris:artUrl)" "/tmp/music-$SONG.jpg" -y &>/dev/null
       STATUS=$?
     fi
   fi

@@ -343,8 +343,8 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1730676659,
-        "narHash": "sha256-iPQdSN79ftOw65fJb6bAXVniucV6nhov8pqxryzhdbU=",
+        "lastModified": 1730678195,
+        "narHash": "sha256-glIckYWCZf7cX0zKwCCzyz25HSQvfn/B19dB6qaeeOo=",
         "path": "/home/jasper/.nixvim",
         "type": "path"
       },

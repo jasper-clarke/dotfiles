@@ -20,6 +20,9 @@
   };
 
   home.packages = with pkgs; [
+    # Eww playerctl requires ffmpeg
+    ffmpeg
+    #
     inputs.swww.packages.${system}.swww
     grimblast
     hyprpicker
