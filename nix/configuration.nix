@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ./nvidia.nix
+    ./steam.nix
   ];
 
   hardware.i2c.enable = true;
