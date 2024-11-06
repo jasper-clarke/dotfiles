@@ -19,9 +19,16 @@
           }
         },
         {
+          "type": "nix-shell",
+          "style": "plain",
+          "foreground": "lightBlue",
+          "background": "transparent",
+          "template": "{{if matchP \"pure\" .Type }} (devenv){{else}}{{end}}"
+        },
+        {
           "type": "git",
           "style": "plain",
-          "foreground": "p:grey",
+          "foreground": "244",
           "background": "transparent",
           "template": " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <blue>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>",
           "properties": {

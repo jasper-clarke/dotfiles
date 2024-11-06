@@ -4,6 +4,11 @@ let
 in
 {
   programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = zsh;
+      nix-direnv.enable = true;
+    };
     git = {
       enable = true;
       userName = "jasper-clarke";

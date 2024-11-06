@@ -20,6 +20,7 @@
       (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
       inputs.nixvim.packages.${system}.default
       jetbrains-mono
+      motrix
       inter
       (nerdfonts.override { fonts = [ "Iosevka" ]; })
     ];
