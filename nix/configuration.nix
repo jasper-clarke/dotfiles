@@ -140,6 +140,9 @@
   };
 
   programs = {
+    nix-ld = {
+      enable = true;
+    };
     hyprland.enable = true;
     zsh.enable = true;
     nh = {

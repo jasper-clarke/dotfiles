@@ -12,6 +12,8 @@
     ./music.nix
   ];
 
+  services.gnome-keyring.enable = true;
+
   home = {
     username = "${user}";
     homeDirectory = "/home/${user}";
@@ -22,6 +24,7 @@
       jetbrains-mono
       motrix
       inter
+      zed-editor
       (nerdfonts.override { fonts = [ "Iosevka" ]; })
     ];
     pointerCursor = {
