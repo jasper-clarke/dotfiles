@@ -67,6 +67,7 @@
     xserver = {
       enable = true;
       xkb.layout = "us";
+      displayManager.startx.enable = true;
     };
     displayManager = {
       sddm.enable = true;

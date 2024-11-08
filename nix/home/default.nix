@@ -20,12 +20,17 @@
     stateVersion = "${version}";
     packages = with pkgs; [
       (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
-      inputs.nixvim.packages.${system}.default
       jetbrains-mono
+      (nerdfonts.override { fonts = [ "Iosevka" ]; })
       motrix
       inter
+      gimp
+      btop
       zed-editor
-      (nerdfonts.override { fonts = [ "Iosevka" ]; })
+      inputs.nixvim.packages.${system}.default
+
+      nitrogen
+      picom
     ];
     pointerCursor = {
       x11.enable = true;
