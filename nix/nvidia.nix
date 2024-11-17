@@ -1,10 +1,5 @@
-{
-  pkgs,
-  config,
-  libs,
-  ...
-}: {
-  services.xserver.videoDrivers = ["nvidia"];
+{ config, ... }: {
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # environment.systemPackages = with pkgs; [
   # ];
@@ -16,6 +11,13 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    forceFullCompositionPipeline = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  # set environment variables
+  environment.sessionVariables = {
+    __GL_SYNC_DISPLAY_DEVICE = "DP-2";
+    __GL_SYNC_TO_VBLANK = 0;
   };
 }

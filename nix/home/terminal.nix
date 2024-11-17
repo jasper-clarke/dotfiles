@@ -27,9 +27,9 @@ in
     };
     kitty = {
       enable = true;
-      font.name = "JetBrains Mono";
-      font.size = 17;
-      theme = "Ayu";
+      # font.name = "JetBrains Mono";
+      # font.size = 17;
+      # extraConfig = builtins.toString (builtins.readFile ./kitty.conf);
       settings = {
         confirm_os_window_close = 0;
         sync_to_monitor = true;
@@ -42,6 +42,12 @@ in
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      shellAliases = {
+        "cd" = "z";
+      };
+      initExtra = ''
+        $HOME/Projects/Golang/bibopener/bibopener
+      '';
     };
     zoxide = {
       enable = true;

@@ -8,8 +8,53 @@
   imports = [
     ./hardware-configuration.nix
     ./nvidia.nix
-    ./steam.nix
+    # ./steam.nix
   ];
+
+  stylix = {
+    enable = true;
+    image = ./home/walls/dark-fuji.png;
+    polarity = "dark";
+    base16Scheme = {
+      slug = "Vapor";
+      scheme = "Vapor Theme";
+      author = "Jasper Clarke (https://jasperclarke.com)";
+      base00 = "#1C1E26";
+      base01 = "#242630";
+      base02 = "#2E303A";
+      base03 = "#3E4048";
+      base04 = "#767B8A";
+      base05 = "#D1D3DA";
+      base06 = "#E1E3EA";
+      base07 = "#F1F3FA";
+      base08 = "#E57B9E";
+      base09 = "#E5A27B";
+      base0A = "#E5D07B";
+      base0B = "#87D996";
+      base0C = "#7BC6E5";
+      base0D = "#8495E5";
+      base0E = "#B87BE5";
+      base0F = "#E57B7B";
+    };
+    fonts = {
+      sizes = {
+        terminal = 17;
+      };
+      monospace = {
+        package = pkgs.jetbrains-mono;
+        name = "JetBrains Mono";
+      };
+      sansSerif = {
+        package = pkgs.inter;
+        name = "Inter";
+      };
+    };
+    cursor = {
+      name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
+      size = 44;
+    };
+  };
 
   hardware.i2c.enable = true;
   boot = {
@@ -43,6 +88,8 @@
 
   hardware.pulseaudio.enable = lib.mkForce false;
 
+  # virtualisation.virtualbox.host.enable = true;
+
   services = {
     mpd = {
       enable = true;
@@ -68,6 +115,10 @@
       enable = true;
       xkb.layout = "us";
       displayManager.startx.enable = true;
+      windowManager.xmonad = {
+        enable = true;
+        enableContribAndExtras = true;
+      };
     };
     displayManager = {
       sddm.enable = true;
@@ -82,7 +133,6 @@
       NetworkManager-wait-online.enable = lib.mkForce false;
       "display-brightness-up" = {
         script = ''
-          ${pkgs.ddcutil}/bin/ddcutil --model VG258 setvcp 10 50
           ${pkgs.ddcutil}/bin/ddcutil --model VX2758-SERIES setvcp 10 80
           ${pkgs.ddcutil}/bin/ddcutil --model 'DELL S2421HS' setvcp 10 70
         '';
@@ -93,7 +143,6 @@
       };
       "display-brightness-down" = {
         script = ''
-          ${pkgs.ddcutil}/bin/ddcutil --model VG258 setvcp 10 20
           ${pkgs.ddcutil}/bin/ddcutil --model VX2758-SERIES setvcp 10 50
           ${pkgs.ddcutil}/bin/ddcutil --model 'DELL S2421HS' setvcp 10 30
         '';
@@ -154,6 +203,12 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    # Haskell Language Server XMonad Support
+    (haskellPackages.ghcWithPackages (hpkgs: [
+      hpkgs.xmonad
+      hpkgs.xmonad-contrib
+      hpkgs.xmonad-extras
+    ]))
   ];
 
   system.stateVersion = "${version}"; # Did you read the comment?

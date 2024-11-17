@@ -9,6 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stylix.url = "github:danth/stylix";
+
     nixvim = {
       url = "path:/home/jasper/.nixvim";
     };
@@ -39,6 +41,7 @@
           specialArgs = { inherit user hostname version inputs pkgs; };
           modules = [
             ./nix/configuration.nix
+            inputs.stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
