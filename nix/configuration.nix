@@ -19,11 +19,11 @@
       slug = "Vapor";
       scheme = "Vapor Theme";
       author = "Jasper Clarke (https://jasperclarke.com)";
-      base00 = "#1C1E26";
-      base01 = "#242630";
-      base02 = "#2E303A";
-      base03 = "#3E4048";
-      base04 = "#767B8A";
+      base00 = "#12141A";
+      base01 = "#181A22";
+      base02 = "#1E202A";
+      base03 = "#2A2C36";
+      base04 = "#666B7A";
       base05 = "#D1D3DA";
       base06 = "#E1E3EA";
       base07 = "#F1F3FA";
