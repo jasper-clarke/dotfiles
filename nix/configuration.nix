@@ -4,38 +4,42 @@
 , version
 , hostname
 , ...
-}: {
+}:
+let
+  colors = {
+    slug = "Vapor";
+    scheme = "Vapor Theme";
+    author = "Jasper Clarke (https://jasperclarke.com)";
+    base00 = "#131313";
+    base01 = "#1A1A1A";
+    base02 = "#212121";
+    base03 = "#4C4C4C";
+    base04 = "#686868";
+    base05 = "#D1D1D1";
+    base06 = "#E1E1E1";
+    base07 = "#F1F1F1";
+    base08 = "#E57B9E";
+    base09 = "#E5A27B";
+    base0A = "#E5D07B";
+    base0B = "#87D996";
+    base0C = "#7BC6E5";
+    base0D = "#8495E5";
+    base0E = "#B87BE5";
+    base0F = "#E57B7B";
+  };
+in
+{
   imports = [
     ./hardware-configuration.nix
     ./nvidia.nix
-    # ./steam.nix
+    ./steam.nix
   ];
 
   stylix = {
     enable = true;
     image = ./home/walls/dark-fuji.png;
     polarity = "dark";
-    base16Scheme = {
-      slug = "Vapor";
-      scheme = "Vapor Theme";
-      author = "Jasper Clarke (https://jasperclarke.com)";
-      base00 = "#12141A";
-      base01 = "#181A22";
-      base02 = "#1E202A";
-      base03 = "#2A2C36";
-      base04 = "#666B7A";
-      base05 = "#D1D3DA";
-      base06 = "#E1E3EA";
-      base07 = "#F1F3FA";
-      base08 = "#E57B9E";
-      base09 = "#E5A27B";
-      base0A = "#E5D07B";
-      base0B = "#87D996";
-      base0C = "#7BC6E5";
-      base0D = "#8495E5";
-      base0E = "#B87BE5";
-      base0F = "#E57B7B";
-    };
+    base16Scheme = colors;
     fonts = {
       sizes = {
         terminal = 17;
@@ -60,7 +64,7 @@
   boot = {
     kernelModules = [ "i2c-dev" ];
     supportedFilesystems = [ "ntfs" ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
     loader = {
       efi.canTouchEfiVariables = true;
       grub = {
@@ -89,6 +93,17 @@
   hardware.pulseaudio.enable = lib.mkForce false;
 
   # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.libvirtd.enable = true;
+  # virtualisation.docker = {
+  #   enable = true;
+  #   enableNvidia = true;
+  # };
+
+  # Keyboard
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   services = {
     mpd = {
@@ -124,6 +139,20 @@
       sddm.enable = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    # Keyboard
+    blueman
+
+    # Haskell Language Server XMonad Support
+    (haskellPackages.ghcWithPackages (hpkgs: [
+      hpkgs.xmonad
+      hpkgs.xmonad-contrib
+      hpkgs.xmonad-extras
+      hpkgs.xmobar
+    ]))
+    xmobar
+  ];
 
   systemd = {
     services = {
@@ -193,23 +222,13 @@
     nix-ld = {
       enable = true;
     };
-    hyprland.enable = true;
+    # hyprland.enable = true;
     zsh.enable = true;
     nh = {
       enable = true;
       flake = "/home/${user}/.nixos";
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    # Haskell Language Server XMonad Support
-    (haskellPackages.ghcWithPackages (hpkgs: [
-      hpkgs.xmonad
-      hpkgs.xmonad-contrib
-      hpkgs.xmonad-extras
-    ]))
-  ];
 
   system.stateVersion = "${version}"; # Did you read the comment?
 }

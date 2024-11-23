@@ -11,11 +11,14 @@
 
     stylix.url = "github:danth/stylix";
 
-    nixvim = {
-      url = "path:/home/jasper/.nixvim";
-    };
+    zen-browser.url = "github:jasper-clarke/zen-browser-nixos";
 
-    swww.url = "github:LGFae/swww";
+    nixvim.url = "path:/home/jasper/.nixvim";
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     { self
@@ -25,7 +28,7 @@
     } @ inputs:
     let
       system = "x86_64-linux";
-      version = "24.11";
+      version = "25.05";
       user = "jasper";
       hostname = "lambda";
       pkgs = import nixpkgs {
