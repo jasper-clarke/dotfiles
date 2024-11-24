@@ -143,6 +143,7 @@ in
   environment.systemPackages = with pkgs; [
     # Keyboard
     blueman
+    gnupg
 
     # Haskell Language Server XMonad Support
     (haskellPackages.ghcWithPackages (hpkgs: [
@@ -221,6 +222,11 @@ in
   programs = {
     nix-ld = {
       enable = true;
+    };
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryPackage = pkgs.pinentry-curses;
     };
     # hyprland.enable = true;
     zsh.enable = true;

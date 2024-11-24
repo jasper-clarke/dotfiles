@@ -1,0 +1,138 @@
+#!/bin/bash
+
+## Get data
+STATUS="$(playerctl status)"
+MPD_STATUS="$(mpc status)"
+MUSIC_DIR="$HOME/Music"
+PLAYER="spotify"
+# If MPD is playing music, use that
+if [[ "$MPD_STATUS" == *"[playing]"* || "$MPD_STATUS" == *"[paused]"* ]]; then
+  PLAYER="mpd"
+fi
+
+## Get status
+get_status() {
+  if [[ "$(playerctl -p $PLAYER status)" == *"Playing"* ]]; then
+		echo ""
+	else
+		echo ""
+	fi
+}
+
+## Get song
+get_song() {
+	song=`playerctl -p $PLAYER metadata title`
+	if [[ -z "$song" ]]; then
+		echo "Offline"
+	else
+		echo "$song"
+	fi	
+}
+
+## Get artist
+get_artist() {
+	artist=`playerctl -p $PLAYER metadata artist`
+	if [[ -z "$artist" ]]; then
+		echo "Offline"
+	else
+		echo "$artist"
+	fi	
+}
+
+# Output percentage complete as a number between 0 and 100
+# Percentage is calculated by dividing the current position by the total length
+get_percent() {
+current_position=$(playerctl -p $PLAYER position | cut -d. -f1)
+
+# Get the total song length in microseconds and convert to seconds
+total_length=$(playerctl -p $PLAYER metadata mpris:length)
+total_length_sec=$((total_length / 1000000))
+
+# Calculate the percentage complete
+percentage=$(( (current_position * 100) / total_length_sec ))
+echo "$percentage"
+}
+
+get_ctime() {
+	ctime=`playerctl -p $PLAYER position | cut -d. -f1`
+	if [[ -z "$ctime" ]]; then
+		echo "0:00"
+	else
+    # Convert seconds to minutes and seconds
+    minutes=$((ctime / 60))
+    seconds=$((ctime % 60))
+
+    # Format the output
+    if [ $seconds -lt 10 ]; then
+      echo "$minutes:0$seconds"
+    else
+      echo "$minutes:$seconds"
+    fi
+	fi
+}
+
+get_ttime() {
+  ttime=`playerctl -p $PLAYER metadata mpris:length`
+  if [[ -z "$ttime" ]]; then
+    echo "0:00"
+  else
+    # Convert microseconds to minutes and seconds
+    minutes=$((ttime / 60000000))
+    seconds=$((ttime / 1000000 % 60))
+
+    # Format the output
+    if [ $seconds -lt 10 ]; then
+      echo "$minutes:0$seconds"
+    else 
+      echo "$minutes:$seconds"
+    fi
+  fi
+}
+
+## Get cover
+get_cover() {
+  SONG=$(playerctl -p $PLAYER metadata title | sed 's/[^a-zA-Z0-9._\/-]//g')
+  if [ -f "/tmp/music-$SONG.jpg" ]; then
+    COVER="/tmp/music-$SONG.jpg"
+    STATUS=0
+  else
+    rm -f /tmp/music-*.jpg
+    if [[ "$PLAYER" == "mpd" ]]; then
+      ffmpeg -i "${MUSIC_DIR}/$(mpc current -f %file%)" "/tmp/music-$SONG.jpg" -y &> /dev/null
+      STATUS=$?
+    else
+      ffmpeg -i "$(playerctl -p spotify metadata mpris:artUrl)" "/tmp/music-$SONG.jpg" -y &> /dev/null
+      STATUS=$?
+    fi
+  fi
+
+	# Check if the file has a embbeded album art
+	if [ "$STATUS" -eq 0 ];then
+		echo "/tmp/music-$SONG.jpg"
+	else
+		echo "images/music.png"
+	fi
+}
+
+## Execute accordingly
+if [[ "$1" == "--title" ]]; then
+	get_song
+elif [[ "$1" == "--artist" ]]; then
+	get_artist
+elif [[ "$1" == "--status" ]]; then
+	get_status
+elif [[ "$1" == "--percent" ]]; then
+	get_percent
+elif [[ "$1" == "--ctime" ]]; then
+	get_ctime
+elif [[ "$1" == "--ttime" ]]; then
+	get_ttime
+elif [[ "$1" == "--cover" ]]; then
+	get_cover
+elif [[ "$1" == "--toggle" ]]; then
+	playerctl -p $PLAYER play-pause
+elif [[ "$1" == "--next" ]]; then
+	{ playerctl -p $PLAYER next; get_cover; }
+elif [[ "$1" == "--prev" ]]; then
+	{ playerctl -p $PLAYER previous; get_cover; }
+fi

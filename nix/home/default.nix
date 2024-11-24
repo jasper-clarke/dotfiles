@@ -52,6 +52,7 @@
     stateVersion = "${version}";
     packages = with pkgs; [
       # (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
+      (writers.writeBashBin "music" ./scripts/music)
       (nerdfonts.override { fonts = [ "Iosevka" ]; })
       motrix
       gimp

@@ -12,7 +12,11 @@ in
     git = {
       enable = true;
       userName = "jasper-clarke";
-      userEmail = "jasper@windswept.digital";
+      userEmail = "me@jasperclarke.com";
+      signing = {
+        key = "B02A7007E0D92292";
+        signByDefault = true;
+      };
     };
     ssh = {
       enable = true;
