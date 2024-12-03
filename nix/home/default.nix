@@ -67,6 +67,10 @@
       xclip
       prismlauncher
       wmctrl
+      mpv
+      appimage-run
+      unzip
+      zip
     ];
   };
 }

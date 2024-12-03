@@ -39,6 +39,8 @@ in
         sync_to_monitor = true;
         enable_audio_bell = false;
         window_padding_width = 15;
+        cursor_trail = 1;
+        cursor_trail_decay = "0.1 0.2";
       };
     };
     zsh = {

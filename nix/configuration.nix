@@ -132,7 +132,10 @@ in
       displayManager.startx.enable = true;
       windowManager.xmonad = {
         enable = true;
-        enableContribAndExtras = true;
+        extraPackages = hpkgs: [
+          hpkgs.xmonad-contrib_0_18_1
+          hpkgs.xmonad-extras
+        ];
       };
     };
     displayManager = {
@@ -148,7 +151,7 @@ in
     # Haskell Language Server XMonad Support
     (haskellPackages.ghcWithPackages (hpkgs: [
       hpkgs.xmonad
-      hpkgs.xmonad-contrib
+      hpkgs.xmonad-contrib_0_18_1
       hpkgs.xmonad-extras
       hpkgs.xmobar
     ]))
@@ -222,11 +225,68 @@ in
   programs = {
     nix-ld = {
       enable = true;
+      libraries = with pkgs; [
+        alsa-lib
+        at-spi2-atk
+        at-spi2-core
+        atk
+        cairo
+        cups
+        curl
+        dbus
+        expat
+        fontconfig
+        freetype
+        fuse3
+        gdk-pixbuf
+        glib
+        gtk3
+        icu
+        wayland
+        libGL
+        libGLU
+        glfw
+        glew
+        libappindicator-gtk3
+        libdrm
+        libglvnd
+        libnotify
+        libpulseaudio
+        libunwind
+        libusb1
+        libuuid
+        libxkbcommon
+        libxml2
+        mesa
+        nspr
+        nss
+        openssl
+        pango
+        pipewire
+        stdenv.cc.cc
+        systemd
+        vulkan-loader
+        xorg.libX11
+        xorg.libXScrnSaver
+        xorg.libXcomposite
+        xorg.libXcursor
+        xorg.libXdamage
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXi
+        xorg.libXrandr
+        xorg.libXrender
+        xorg.libXtst
+        xorg.libxcb
+        xorg.libxkbfile
+        xorg.libxshmfence
+        zlib
+      ];
     };
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = pkgs.pinentry-curses;
+      pinentryPackage = pkgs.pinentry-gtk2;
     };
     # hyprland.enable = true;
     zsh.enable = true;

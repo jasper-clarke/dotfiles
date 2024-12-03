@@ -517,16 +517,16 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1732014248,
-        "narHash": "sha256-y/MEyuJ5oBWrWAic/14LaIr/u5E0wRVzyYsouYY3W6w=",
+        "lastModified": 1732632634,
+        "narHash": "sha256-+G7n/ZD635aN0sEXQLynU7pWMd3PKDM7yBIXvYmjABQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "23e89b7da85c3640bbc2173fe04f4bd114342367",
+        "rev": "6f6076c37180ea3a916f84928cf3a714c5207a30",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
+        "ref": "nixos-24.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -538,8 +538,8 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1731839609,
-        "narHash": "sha256-COy8REz368a0JgpVOHyMZhx6guTmrP8c+xrgWZmx4O8=",
+        "lastModified": 1732934562,
+        "narHash": "sha256-Lj85N6sItO/C805ON/VqRhpABhbQFUktyDZ0s0odaWA=",
         "path": "/home/jasper/.nixvim",
         "type": "path"
       },
@@ -745,16 +745,16 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1732400613,
-        "narHash": "sha256-jWUGEDUJQQP9LvMuRX6X8LFTxFUwn01G/Lxy0DAfWpA=",
-        "owner": "jasper-clarke",
-        "repo": "zen-browser-nixos",
-        "rev": "2bacce415c83ed2929d3ec1bbe18d8e5368e62e4",
+        "lastModified": 1732844621,
+        "narHash": "sha256-2ggJf/WIJHvcjDxI4nq6ft/9amaD4RdRWQx2fG9Wkw4=",
+        "owner": "FBIGlowie",
+        "repo": "zen-browser-flake",
+        "rev": "1aabde93ccab6fe2c285df0ca2d80014286365e9",
         "type": "github"
       },
       "original": {
-        "owner": "jasper-clarke",
-        "repo": "zen-browser-nixos",
+        "owner": "FBIGlowie",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

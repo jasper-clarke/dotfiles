@@ -11,7 +11,7 @@
 
     stylix.url = "github:danth/stylix";
 
-    zen-browser.url = "github:jasper-clarke/zen-browser-nixos";
+    zen-browser.url = "github:FBIGlowie/zen-browser-flake";
 
     nixvim.url = "path:/home/jasper/.nixvim";
 
