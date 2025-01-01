@@ -52,25 +52,30 @@
     stateVersion = "${version}";
     packages = with pkgs; [
       # (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
-      (writers.writeBashBin "music" ./scripts/music)
-      (nerdfonts.override { fonts = [ "Iosevka" ]; })
+      (writers.writeBashBin "p" ./scripts/projs)
+      gum
+      nerd-fonts.iosevka
+      rounded-mgenplus
       motrix
       gimp
       btop
-      zed-editor
       inputs.nixvim.packages.${system}.default
-
       nitrogen
       picom
       rofi
       flameshot
       xclip
-      prismlauncher
+      xsel
       wmctrl
       mpv
       appimage-run
       unzip
       zip
+      zed-editor
+
+      audacity
+
+      prismlauncher
     ];
   };
 }

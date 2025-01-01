@@ -19,6 +19,11 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # aagl = {
+    #   url = "github:ezKEa/aagl-gtk-on-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
   outputs =
     { self
@@ -56,6 +61,14 @@
                 ];
               };
             }
+            # {
+            #   imports = [ aagl.nixosModules.default ];
+            #   nix.settings = aagl.nixConfig;
+            #   programs.anime-game-launcher = {
+            #     enable = true;
+            #     package = aagl.packages.${system}.anime-game-launcher;
+            #   };
+            # }
           ];
         };
       };

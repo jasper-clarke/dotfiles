@@ -32,12 +32,13 @@ in
   imports = [
     ./hardware-configuration.nix
     ./nvidia.nix
-    ./steam.nix
+    # ./steam.nix
+    # ./php.nix
   ];
 
   stylix = {
     enable = true;
-    image = ./home/walls/dark-fuji.png;
+    image = ./home/walls/to-the-stars.jpg;
     polarity = "dark";
     base16Scheme = colors;
     fonts = {
@@ -78,26 +79,60 @@ in
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
+    substituters = [ "https://ezkea.cachix.org" ];
+    trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
   };
 
   networking = {
     hostName = "${hostname}";
     networkmanager.enable = true;
+    hosts = {
+      "127.0.0.1" = [ "jasperclarke.local" ];
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPortRanges = [
+        {
+          from = 8000;
+          to = 8090;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 8000;
+          to = 8090;
+        }
+      ];
+    };
   };
 
   time.timeZone = "Australia/Sydney";
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "hard";
+      item = "memlock";
+      value = 29360128;
+    }
+    {
+      domain = "*";
+      type = "soft";
+      item = "memlock";
+      value = 29360128;
+    }
+  ];
 
   hardware.pulseaudio.enable = lib.mkForce false;
 
   # virtualisation.virtualbox.host.enable = true;
   # virtualisation.libvirtd.enable = true;
-  # virtualisation.docker = {
-  #   enable = true;
-  #   enableNvidia = true;
-  # };
+  virtualisation.docker = {
+    enable = true;
+    # enableNvidia = true;
+  };
 
   # Keyboard
   hardware.bluetooth = {
@@ -129,24 +164,53 @@ in
     xserver = {
       enable = true;
       xkb.layout = "us";
-      displayManager.startx.enable = true;
+      xrandrHeads = [
+        {
+          output = "DP-2";
+          primary = true;
+          monitorConfig = ''
+            Modeline "2560x1440_144" 575.020 2560 2576 2640 2680 1440 1443 1448 1490 +hsync +vsync
+            Option "PreferredMode" "2560x1440_144"
+          '';
+        }
+        {
+          output = "DP-0";
+          monitorConfig = ''
+            Modeline "1920x1080_60" 148.500 1920 2008 2052 2200 1080 1084 1089 1125 +hsync +vsync
+            Option "Rotate" "left"
+            Option "RightOf" "DP-2"
+          '';
+        }
+      ];
+      displayManager = {
+        startx.enable = true;
+      };
       windowManager.xmonad = {
         enable = true;
+        # config = ./home/config/xmonad.hs;
         extraPackages = hpkgs: [
           hpkgs.xmonad-contrib_0_18_1
           hpkgs.xmonad-extras
         ];
       };
     };
-    displayManager = {
-      sddm.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      theme = "sugar-dark";
+      extraPackages = with pkgs; [
+        libsForQt5.qtgraphicaleffects
+      ];
     };
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; let
+    sddm-themes = pkgs.callPackage ./sddm.nix { };
+  in
+  [
     # Keyboard
     blueman
     gnupg
+    sddm-themes.sddm-sugar-dark
 
     # Haskell Language Server XMonad Support
     (haskellPackages.ghcWithPackages (hpkgs: [
@@ -280,6 +344,7 @@ in
         xorg.libxcb
         xorg.libxkbfile
         xorg.libxshmfence
+        xorg.libXxf86vm
         zlib
       ];
     };
@@ -288,7 +353,6 @@ in
       enableSSHSupport = true;
       pinentryPackage = pkgs.pinentry-gtk2;
     };
-    # hyprland.enable = true;
     zsh.enable = true;
     nh = {
       enable = true;

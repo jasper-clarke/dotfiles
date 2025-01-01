@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+PROJECTS_DIR=~/Projects
+CACHE_FILE=$PROJECTS_DIR/.projectslist
+CACHE_DATE_FORMAT="%Y-%m-%d"
+
+# Function to check if cache needs updating
+need_cache_update() {
+  if [ ! -f "$CACHE_FILE" ]; then
+    return 0 # True - need update if file doesn't exist
+  fi
+
+  # Read the first line which should contain the date
+  cached_date=$(head -n 1 "$CACHE_FILE")
+  today=$(date +"$CACHE_DATE_FORMAT")
+
+  if [ "$cached_date" != "$today" ]; then
+    return 0 # True - need update if dates don't match
+  fi
+
+  return 1 # False - no update needed
+}
+
+# Function to find project directories based on specific files
+find_project_dirs() {
+  find $PROJECTS_DIR -type d -name "node_modules" -prune -o \
+    -type d -name ".*" -prune -o \
+    -type f \( -name "go.mod" -o -name "package.json" -o -name ".envrc" -o -name ".gitignore" \) \
+    -exec sh -c '
+            dir=$(dirname "$1")
+            echo "$dir"
+            # Create a temporary marker file to help find prune this directory in later searches
+            touch "$dir/.project_temp_marker"
+        ' sh {} \; | sort -u
+  # Clean up temporary marker files
+  find $PROJECTS_DIR -name ".project_temp_marker" -delete
+}
+
+# Function to update cache file
+update_cache() {
+  # Add today's date as the first line
+  date +"$CACHE_DATE_FORMAT" >"$CACHE_FILE"
+
+  # Store the projects in an array
+  mapfile -t projects < <(find_project_dirs)
+
+  if [ ${#projects[@]} -eq 0 ]; then
+    echo "No projects found!"
+    exit 1
+  fi
+
+  # Create a formatted list of project directories
+  for project in "${projects[@]}"; do
+    # Get the relative path from home directory
+    relative_path=${project/#$HOME/'~'}
+    # Determine which project indicators are present
+    indicators=""
+    [[ -f "$project/go.mod" ]] && indicators+="Go "
+    [[ -f "$project/package.json" ]] && indicators+="Node "
+    [[ -f "$project/.envrc" ]] && indicators+="Direnv "
+    [[ -f "$project/.gitignore" ]] && indicators+="Git "
+    # Add formatted project to cache
+    echo "$relative_path ($(echo "$indicators" | xargs))" >>"$CACHE_FILE"
+  done
+}
+
+# Main script execution
+if need_cache_update; then
+  update_cache
+fi
+
+# Read from cache file (skip first line which is the date)
+mapfile -t formatted_projects < <(tail -n +2 "$CACHE_FILE")
+
+# Use gum filter to create searchable list
+selected=$(printf '%s\n' "${formatted_projects[@]}" | gum filter --placeholder "Choose a project..." --indicator "" --indicator.foreground "#b87be5" --prompt.foreground "#b87be5")
+
+if [ -z "$selected" ]; then
+  exit 0
+fi
+
+# Extract the actual path from the selected formatted string
+selected_path=$(echo "$selected" | sed 's/ (.*)//')
+
+# Convert the ~ back to actual home directory
+actual_path=${selected_path/#\~/$HOME}
+
+cd "$actual_path" || exit
+kitten @ launch --type=window --cwd="$actual_path" --no-response --dont-take-focus && nvim

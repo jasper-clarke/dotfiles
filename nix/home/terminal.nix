@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 let
   zsh = true;
 in
@@ -25,12 +25,20 @@ in
           IdentityFile ~/.ssh/private
         Host github.com
           IdentityFile ~/.ssh/private
-        Host 192.168.100.133
+        Host 192.168.100.134
           IdentityFile ~/.ssh/private
       '';
     };
     kitty = {
       enable = true;
+      package = pkgs.kitty.overrideAttrs (oldAttrs: {
+        prePatch = ''
+          substituteInPlace kitty/fast_data_types.pyi \
+            --replace 'allow_bitmapped_fonts: bool = False' 'allow_bitmapped_fonts: bool = True'
+          substituteInPlace kitty/fontconfig.c \
+            --replace 'allow_bitmapped_fonts = 0' 'allow_bitmapped_fonts = 1'
+        '';
+      });
       # font.name = "JetBrains Mono";
       # font.size = 17;
       # extraConfig = builtins.toString (builtins.readFile ./kitty.conf);
@@ -41,6 +49,10 @@ in
         window_padding_width = 15;
         cursor_trail = 1;
         cursor_trail_decay = "0.1 0.2";
+      };
+      keybindings = {
+        "ctrl+enter" = "previous_window";
+        "ctrl+space" = "toggle_layout stack";
       };
     };
     zsh = {
