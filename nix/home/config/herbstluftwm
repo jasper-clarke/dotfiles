@@ -159,7 +159,7 @@ hc unlock
 
 hc detect_monitors
 
-# hc attr monitors.0.pad_up 40
+hc attr monitors.0.pad_up 50
 
 run() {
   if ! pgrep -f "$1"; then
@@ -168,7 +168,7 @@ run() {
 }
 
 nitrogen --restore &
-# run "copyq"
+run "polybar"
 run "flameshot"
 run "picom"
 xset -dpms

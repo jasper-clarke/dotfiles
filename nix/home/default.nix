@@ -62,6 +62,7 @@
       nitrogen
       picom
       rofi
+      polybar
       flameshot
       xclip
       xsel
@@ -84,6 +85,10 @@
       };
       ".config/picom.conf" = {
         source = ./config/picom.conf;
+        force = true;
+      };
+      ".config/polybar/config.ini" = {
+        source = ./config/polybar.ini;
         force = true;
       };
     };
