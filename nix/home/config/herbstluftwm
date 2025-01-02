@@ -171,5 +171,6 @@ nitrogen --restore &
 run "polybar"
 run "flameshot"
 run "picom"
+run "mpDris2"
 xset -dpms
 xset s off
