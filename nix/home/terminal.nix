@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs
+, user
+, ...
+}:
 let
   zsh = true;
 in
@@ -62,6 +65,7 @@ in
       syntaxHighlighting.enable = true;
       shellAliases = {
         "cd" = "z";
+        "rebuild" = "cp $HOME/.mozilla/firefox/${user}/bookmarks.html $HOME/.nixos/nix/home && nh os switch";
       };
       initExtra = ''
         $HOME/Projects/Golang/bibopener/bibopener
