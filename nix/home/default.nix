@@ -51,8 +51,8 @@
     homeDirectory = "/home/${user}";
     stateVersion = "${version}";
     packages = with pkgs; [
-      # (writers.writeBashBin "ws-switch" ./scripts/ws-switch)
-      (writers.writeBashBin "p" ./scripts/projs)
+      (writers.writeBashBin "herb-ws-switch" ./scripts/herb-ws-switch)
+      # (writers.writeBashBin "p" ./scripts/projs)
       gum
       nerd-fonts.iosevka
       rounded-mgenplus
@@ -77,5 +77,16 @@
 
       prismlauncher
     ];
+    file = {
+      ".config/herbstluftwm/autostart" = {
+        source = ./config/herbstluftwm;
+        force = true;
+        executable = true;
+      };
+      ".config/picom.conf" = {
+        source = ./config/picom.conf;
+        force = true;
+      };
+    };
   };
 }

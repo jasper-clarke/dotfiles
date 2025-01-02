@@ -35,7 +35,7 @@
       system = "x86_64-linux";
       version = "25.05";
       user = "jasper";
-      hostname = "lambda";
+      hostname = "theta";
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };

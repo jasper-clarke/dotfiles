@@ -1,0 +1,175 @@
+#!/usr/bin/env bash
+
+hc() {
+  herbstclient "$@"
+}
+
+hc emit_hook reload
+
+# remove all existing keybindings
+hc keyunbind --all
+
+# keybindings
+# if you have a super key you will be much happier with Mod set to Mod4
+#Mod=Mod1    # Use alt as the main modifier
+Mod=Mod4 # Use the super key as the main modifier
+Alt=Mod1
+
+hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-r reload
+hc keybind $Mod-q close_or_remove
+hc keybind $Mod-e spawn kitty
+hc keybind $Mod-space spawn rofi -show drun -theme ~/.config/rofi/launcher.rasi
+# hc keybind $Mod-v spawn copyq toggle
+hc keybind $Mod-s spawn flameshot gui
+hc keybind $Alt-space spawn music --toggle
+hc keybind $Alt-h spawn music --prev
+hc keybind $Alt-l spawn music --next
+
+# basic movement in tiling and floating mode
+# focusing clients
+hc keybind $Mod-h focus left
+hc keybind $Mod-j focus down
+hc keybind $Mod-k focus up
+hc keybind $Mod-l focus right
+
+# moving clients in tiling and floating mode
+hc keybind $Mod-Shift-h shift left
+hc keybind $Mod-Shift-j shift down
+hc keybind $Mod-Shift-k shift up
+hc keybind $Mod-Shift-l shift right
+
+# splitting frames
+# create an empty frame at the specified direction
+hc keybind $Mod-u split bottom 0.5
+hc keybind $Mod-o split right 0.5
+# let the current frame explode into subframes
+# hc keybind $Mod-Control-space split explode
+
+# resizing frames and floating clients
+resizestep=0.05
+hc keybind $Mod-Control-h resize left +$resizestep
+hc keybind $Mod-Control-j resize down +$resizestep
+hc keybind $Mod-Control-k resize up +$resizestep
+hc keybind $Mod-Control-l resize right +$resizestep
+
+# tags
+tag_names=({1..6})
+hc rename default "${tag_names[0]}" || true
+for i in "${!tag_names[@]}"; do
+  hc add "${tag_names[$i]}"
+done
+
+hc keybind $Mod-1 spawn herb-ws-switch 1
+hc keybind $Mod-2 spawn herb-ws-switch 2
+hc keybind $Mod-3 spawn herb-ws-switch 3
+
+hc keybind $Mod-Shift-1 spawn herb-ws-switch 1 move
+hc keybind $Mod-Shift-2 spawn herb-ws-switch 2 move
+hc keybind $Mod-Shift-3 spawn herb-ws-switch 3 move
+
+# cycle through tags
+# hc keybind $Mod-period use_index +1 --skip-visible
+# hc keybind $Mod-comma use_index -1 --skip-visible
+
+# layouting
+hc keybind $Mod-r remove
+hc keybind $Mod-t floating toggle
+hc keybind $Mod-f fullscreen toggle
+# hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
+# hc keybind $Mod-Shift-d set_attr clients.focus.decorated toggle
+# hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
+# hc keybind $Mod-Control-m jumpto last-minimized
+# hc keybind $Mod-p pseudotile toggle
+# The following cycles through the available layouts within a frame, but skips
+# layouts, if the layout change wouldn't affect the actual window positions.
+# I.e. if there are two windows within a frame, the grid layout is skipped.
+# hc keybind $Mod-space \
+# 	or , and . compare tags.focus.curframe_wcount = 2 \
+# 	. cycle_layout +1 vertical horizontal max vertical grid \
+# 	, cycle_layout +1
+
+# mouse
+hc mouseunbind --all
+# hc mousebind $Mod-Button1 move
+# hc mousebind $Mod-Button2 zoom
+# hc mousebind $Mod-Button3 resize
+
+# focus
+# hc keybind $Mod-BackSpace cycle_monitor
+hc keybind $Mod-Escape cycle_all +1
+# hc keybind $Mod-Shift-Tab cycle_all -1
+# hc keybind $Mod-c cycle
+# hc keybind $Mod-i jumpto urgent
+
+# layout
+
+hc load 1 "(clients horizontal:1)"
+hc load 4 "(clients horizontal:1)"
+hc load 7 "(clients horizontal:1)"
+
+# theme
+hc attr theme.background_color '#00000000'
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
+
+hc set show_frame_decorations none
+hc attr theme.title_when never
+
+hc attr theme.normal.color "$(xrdb -get '*color0')"
+hc attr theme.active.color "$(xrdb -get '*color12')"
+
+hc attr theme.inner_width 0
+hc attr theme.border_width 2
+hc attr theme.floating.border_width 0
+hc attr theme.floating.outer_width 0
+
+# copy inner color to outer_color
+for state in active urgent normal; do
+  hc substitute C theme.${state}.inner_color \
+    attr theme.${state}.outer_color C
+done
+hc attr theme.tiling.outer_width 0
+
+hc set window_gap 40
+hc set frame_padding 0
+hc set smart_window_surroundings off
+hc set smart_frame_surroundings off
+hc set mouse_recenter_gap 0
+hc set focus_follows_mouse true
+
+# rules
+hc unrule -F
+#hc rule class=XTerm tag=3 # move all xterms to tag 3
+hc rule focus=on # normally focus new clients
+hc rule floatplacement=center
+#hc rule focus=off # normally do not focus new clients
+# give focus to most common terminals
+#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule class='copyq' floating=on floatplacement=center
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule fixedsize floating=on
+
+hc set tree_style '╾│ ├└╼─┐'
+
+# unlock, just to be sure
+hc unlock
+
+hc detect_monitors
+
+# hc attr monitors.0.pad_up 40
+
+run() {
+  if ! pgrep -f "$1"; then
+    "$@" &
+  fi
+}
+
+nitrogen --restore &
+# run "copyq"
+run "flameshot"
+run "picom"
+xset -dpms
+xset s off

@@ -79,8 +79,8 @@ in
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-    substituters = [ "https://ezkea.cachix.org" ];
-    trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
+    # substituters = [ "https://ezkea.cachix.org" ];
+    # trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
   };
 
   networking = {
@@ -164,35 +164,36 @@ in
     xserver = {
       enable = true;
       xkb.layout = "us";
-      xrandrHeads = [
-        {
-          output = "DP-2";
-          primary = true;
-          monitorConfig = ''
-            Modeline "2560x1440_144" 575.020 2560 2576 2640 2680 1440 1443 1448 1490 +hsync +vsync
-            Option "PreferredMode" "2560x1440_144"
-          '';
-        }
-        {
-          output = "DP-0";
-          monitorConfig = ''
-            Modeline "1920x1080_60" 148.500 1920 2008 2052 2200 1080 1084 1089 1125 +hsync +vsync
-            Option "Rotate" "left"
-            Option "RightOf" "DP-2"
-          '';
-        }
-      ];
+      # xrandrHeads = [
+      #   {
+      #     output = "DP-2";
+      #     primary = true;
+      #     monitorConfig = ''
+      #       Modeline "2560x1440_144" 575.020 2560 2576 2640 2680 1440 1443 1448 1490 +hsync +vsync
+      #       Option "PreferredMode" "2560x1440_144"
+      #     '';
+      #   }
+      #   {
+      #     output = "DP-0";
+      #     monitorConfig = ''
+      #       Modeline "1920x1080_60" 148.500 1920 2008 2052 2200 1080 1084 1089 1125 +hsync +vsync
+      #       Option "Rotate" "left"
+      #       Option "RightOf" "DP-2"
+      #     '';
+      #   }
+      # ];
       displayManager = {
         startx.enable = true;
       };
-      windowManager.xmonad = {
-        enable = true;
-        # config = ./home/config/xmonad.hs;
-        extraPackages = hpkgs: [
-          hpkgs.xmonad-contrib_0_18_1
-          hpkgs.xmonad-extras
-        ];
-      };
+      windowManager.herbstluftwm.enable = true;
+      # windowManager.xmonad = {
+      #   enable = true;
+      #   # config = ./home/config/xmonad.hs;
+      #   extraPackages = hpkgs: [
+      #     hpkgs.xmonad-contrib_0_18_1
+      #     hpkgs.xmonad-extras
+      #   ];
+      # };
     };
     displayManager.sddm = {
       enable = true;
@@ -213,13 +214,13 @@ in
     sddm-themes.sddm-sugar-dark
 
     # Haskell Language Server XMonad Support
-    (haskellPackages.ghcWithPackages (hpkgs: [
-      hpkgs.xmonad
-      hpkgs.xmonad-contrib_0_18_1
-      hpkgs.xmonad-extras
-      hpkgs.xmobar
-    ]))
-    xmobar
+    # (haskellPackages.ghcWithPackages (hpkgs: [
+    #   hpkgs.xmonad
+    #   hpkgs.xmonad-contrib_0_18_1
+    #   hpkgs.xmonad-extras
+    #   hpkgs.xmobar
+    # ]))
+    # xmobar
   ];
 
   systemd = {
