@@ -32,7 +32,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./nvidia.nix
-    # ./steam.nix
+    ./steam.nix
     # ./php.nix
   ];
 
@@ -289,6 +289,7 @@ in
   };
 
   programs = {
+    # ladybird.enable = true;
     nix-ld = {
       enable = true;
       libraries = with pkgs; [

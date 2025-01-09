@@ -9,9 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:danth/stylix";
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    zen-browser.url = "github:FBIGlowie/zen-browser-flake";
+    stylix.url = "github:danth/stylix";
 
     nixvim.url = "path:/home/jasper/.nixvim";
 

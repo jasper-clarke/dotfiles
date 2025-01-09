@@ -1,7 +1,11 @@
 { pkgs, ... }: {
+  imports = [
+    ./spicetify.nix
+  ];
+
   home.packages = with pkgs; [
     playerctl
-    spotify
+    # spotify
     rmpc
     mpc-cli
     mpdris2

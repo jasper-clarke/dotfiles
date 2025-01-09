@@ -66,7 +66,9 @@
       flameshot
       xclip
       xsel
+      xdotool
       wmctrl
+      yt-dlp
       mpv
       appimage-run
       unzip

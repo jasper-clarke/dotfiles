@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## Get data
 STATUS="$(playerctl status)"
@@ -21,8 +21,8 @@ get_status() {
 
 ## Get song
 get_song() {
-  song=$(playerctl -p $PLAYER metadata title)
-  if [[ -z "$song" || "$song" == *"No players found"* ]]; then
+  song=$(playerctl -p $PLAYER metadata title 2>/dev/null)
+  if [[ -z "$song" ]]; then
     echo "Offline"
   else
     echo "$song"
