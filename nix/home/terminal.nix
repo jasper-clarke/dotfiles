@@ -64,6 +64,8 @@ in
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       shellAliases = {
+        "headsetlights" = "sudo headsetcontrol -l 0";
+        "sops-edit" = "sops $HOME/.nixos/secrets/mine.yaml";
         "cd" = "z";
         "rebuild" = "cp $HOME/.mozilla/firefox/${user}/bookmarks.html $HOME/.nixos/nix/home && nh os switch";
       };

@@ -1,0 +1,7 @@
+keys:
+  - &jasper age1kvf2p8ndxsvnw0m4xhmfgtqahzajxrknx87a6krpw3xasdpdtumqc4c9rh
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *jasper

@@ -11,9 +11,7 @@
     gamemode.enable = true;
   };
 
-  /*
-    services.joycond.enable = true;
-  */
+  services.joycond.enable = true;
 
   environment.systemPackages = with pkgs; [
     protonup

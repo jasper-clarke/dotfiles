@@ -105,8 +105,8 @@ hc keybind $Mod-Escape cycle_all +1
 # layout
 
 hc load 1 "(clients horizontal:1)"
-hc load 4 "(clients horizontal:1)"
-hc load 7 "(clients horizontal:1)"
+hc load 3 "(clients horizontal:1)"
+hc load 5 "(clients horizontal:1)"
 
 # theme
 hc attr theme.background_color '#00000000'

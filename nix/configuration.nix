@@ -3,6 +3,7 @@
 , user
 , version
 , hostname
+, config
 , ...
 }:
 let
@@ -33,8 +34,23 @@ in
     ./hardware-configuration.nix
     ./nvidia.nix
     ./steam.nix
+    ./icecast.nix
     # ./php.nix
   ];
+
+  sops = {
+    defaultSopsFile = ../secrets/mine.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      sshKeyPaths = [
+        "/home/${user}/.ssh/private"
+      ];
+      generateKey = true;
+    };
+    secrets = {
+      icecast_password = { };
+    };
+  };
 
   stylix = {
     enable = true;
@@ -141,6 +157,47 @@ in
   };
 
   services = {
+    wordpress.sites."localhost" = { };
+    cloudflared = {
+      enable = true;
+      tunnels = {
+        "6336a42b-24da-454d-949c-7ac44c4a72b6" = {
+          credentialsFile = "/home/cloudflared/.cloudflared/6336a42b-24da-454d-949c-7ac44c4a72b6.json";
+          default = "http_status:404";
+        };
+      };
+    };
+    icecastJasper = {
+      enable = true;
+      # package = pkgs.icecast.overrideAttrs (old: {
+      #   version = "2.5-beta3";
+      #   src = ../icecast-2.4.99.3;
+      #   nativeBuildInputs = [
+      #     pkgs.libxml2
+      #     pkgs.libxml2.dev
+      #     pkgs.libxslt
+      #   ];
+      #   buildInputs = [
+      #     pkgs.pkg-config
+      #     pkgs.libxml2
+      #     pkgs.libxslt
+      #     pkgs.curl
+      #     pkgs.libvorbis
+      #     pkgs.libtheora
+      #     pkgs.speex
+      #     pkgs.libkate
+      #     pkgs.libopus
+      #   ];
+      # });
+      # hostname = "localhost";
+      # listen.port = 8050;
+      # admin = {
+      # user = "admin";
+      # };
+      # extraConf = ''
+      # <shoutcast-mount>/live.nsv</shoutcast-mount>
+      # '';
+    };
     mpd = {
       enable = true;
       musicDirectory = "/home/${user}/Music";
@@ -149,6 +206,19 @@ in
         audio_output {
           type "pipewire"
           name "Pipewire Output"
+        }
+
+        audio_output {
+          type "shout"
+          name "Icecast Stream"
+          host "localhost"
+          port "8050"
+          mount "/mpd"
+          bitrate "192"
+          format "44800:16:2"
+          encoding "ogg"
+          user "source"
+          password "notfilled"
         }
       '';
     };
@@ -213,6 +283,7 @@ in
     blueman
     gnupg
     sddm-themes.sddm-sugar-dark
+    butt
 
     # Haskell Language Server XMonad Support
     # (haskellPackages.ghcWithPackages (hpkgs: [

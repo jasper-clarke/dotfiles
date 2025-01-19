@@ -74,6 +74,8 @@
       unzip
       zip
       zed-editor
+      sops
+      headsetcontrol
 
       audacity
 
